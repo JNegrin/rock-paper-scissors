@@ -1,6 +1,7 @@
 //Declares the default score count and number of rounds
 let userScore = 0;
     compScore = 0;
+    roundScore = 0;
     round = 0;
 
 //The computer returns a random selection: Rock, Paper, or Scissors
@@ -20,30 +21,64 @@ function computerPlay(selection) {
 
 //Plays a single round of Rock Paper Scissors
 function playRound(playerSelection, computerSelection) {
-    //Asks user for input and converts to lower case
-        if (playerSelection === 'rock' && computerSelection === 'scissors'
-        || playerSelection === 'paper' && computerSelection === 'rock' 
-        || playerSelection === 'scissor' && computerSelection === 'rock') {
-            return 'You win the round! ' + playerSelection + ' beats ' + computerSelection + '.';
-        //Conditions for a user defeat
-        } else if (computerSelection === 'rock' && playerSelection === 'scissors'
-        || computerSelection === 'paper' && playerSelection === 'rock' 
-        || computerSelection === 'scissor' && playerSelection === 'rock') {
-            return 'You lose this round :( ' + computerSelection + ' beats ' + playerSelection + '.';
-        } else {
-            return 'This round\'s a draw!';
-        }
+    let playerWin = playerSelection > computerSelection;
+        computerWin = computerSelection > playerSelection;
+        draw = playerSelection === computerSelection;
+    if (playerSelection === 'rock' && computerSelection === 'scissors' 
+    || playerSelection === 'paper' && computerSelection === 'rock' 
+    || playerSelection === 'scissor' && computerSelection === 'rock') {
+        return playerWin;
+     //   return 'You win the round! ' + playerSelection + ' beats ' + computerSelection + '.';
+    //Conditions for a user defeat
+    } else if (computerSelection === 'rock' && playerSelection === 'scissors' 
+    || computerSelection === 'paper' && playerSelection === 'rock' 
+    || computerSelection === 'scissor' && playerSelection === 'rock') {
+        return computerWin;
+     //   return 'You lose this round :( ' + computerSelection + ' beats ' + playerSelection + '.';
+    } else {
+        return draw;
+     //   return 'This round\'s a draw!';
+    }  
+    
+}
+
+function winOrLose() {
+    if (userScore >= 2 && userScore > compScore && round >= 5) {
+    alert('You win the game! ' + playerSelection + ' beats ' + computerSelection + '.')
+} else if (compScore >= 2 && compScore > userScore && round >= 5) {
+    alert('You lose the game :( ' + playerSelection + ' beats ' + computerSelection + '.')
+} else if (userScore >= 1 && userScore === compScore && round === 5){
+    alert('It\'s a draw.');
+}
 }
 
 function game() {
-    let computerSelection;
-    let playerSelection;
-    let userScore = 0;
-    let compScore = 0;
-    let round = 0;
-        playerSelection = prompt('Please select: Rock, Paper, or Scissors').toLowerCase();
-        computerSelection = computerPlay();
-        result = playRound(playerSelection, computerSelection);
+    //Asks user for input and converts to lower case
+    playerSelection = prompt('Please select: Rock, Paper, or Scissors', 'Rock').toLowerCase();
+    computerSelection = computerPlay();
+    result = playRound(playerSelection, computerSelection);
+    if (result == playerSelection > computerSelection) {
+        ++userScore;
+        ++round;
+        console.log(userScore, compScore);
+        alert('You win the round! ' + playerSelection + ' beats ' + computerSelection + '.');
+    } else if (result == computerSelection > playerSelection) {
+        ++compScore;
+        ++round;
+        console.log(userScore, compScore);
+        alert('You lose this round :( ' + computerSelection + ' beats ' + playerSelection + '.');
+    } else {
+        ++round;
+        console.log(userScore, compScore);
+        alert('This round\'s a draw!');
+    } 
+    winOrLose();
 }
 
-console.log(game());
+
+
+
+   
+for (roundScore = 0; roundScore < 5; ++roundScore) {
+    game();
+}
